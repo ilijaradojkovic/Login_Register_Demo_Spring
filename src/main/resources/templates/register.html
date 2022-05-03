@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body style="background-color: #C6FFDD" class="container vh-100  d-flex justify-content-center align-items-center">
+ <div class=" p-4 w-50 ">
+     <form th:action="@{/register}"  th:object="${user}" method="post" class="shadow-lg p-4 d-flex justify-content-center flex-column align-items-center" style="background: rgb(189,195,199);
+background: linear-gradient(90deg, rgba(189,195,199,1) 0%, rgba(44,62,80,1) 100%);border-radius: 15px">
+
+
+
+
+         <div class = "form-group">
+             <label for ="fistName"> First name </label> :
+             <input type="text" class = "form-control" th:field="${user.firstName}" id ="fistName" name = "fistName"
+                    placeholder="Enter fist name" autofocus="autofocus">
+         </div>
+         <div class = "form-group">
+             <label for ="lastName"> Last name </label> :
+             <input type="text" class = "form-control" th:field="${user.lastName}" id ="lastName" name = "lastName"
+                    placeholder="Enter last name" autofocus="autofocus">
+         </div>
+         <div class = "form-group">
+             <label for ="email"> Email </label> :
+             <input type="email" class = "form-control" th:field="${user.email}" id ="email" name = "email"
+                    placeholder="Enter email" autofocus="autofocus">
+         </div>
+
+         <div class="form-group">
+             <label for="password">Password</label>: <input th:field="${user.password}" type="password"
+                                                            id="password" name="password" class="form-control"
+                                                            placeholder="Enter Password" />
+         </div>
+         <div class = "form-group">
+             <label for ="roles"> Role </label> :
+            <select class="form-control" id="roles" th:field="${user.role}">
+                <option th:each="role:${roles}" th:value="${role.id}" th:text="${role.name}"></option>
+
+            </select>
+         </div>
+
+         <div class="form-group">
+             <div class="row d-flex justify-content-center">
+                 <div class="col-sm-6 col-sm-offset-3">
+                     <input type="submit"
+                            class="form-control btn text-dark  " value="Register" style="background-color: #C6FFDD" />
+                 </div>
+                 <span>Already  have an accaunt? <a href="/login">Login</a></span>
+             </div>
+         </div>
+     </form>
+ </div>
+
+</body>
+</html>
