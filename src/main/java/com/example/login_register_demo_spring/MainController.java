@@ -7,6 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 import java.util.UUID;
@@ -22,7 +23,11 @@ public class MainController  {
     @Autowired
     private BCryptPasswordEncoder encoder;
     @GetMapping("/login")
-    public String getLoingPage(){
+    public String getLoingPage(@RequestParam(defaultValue = "false") boolean error,Model model)
+
+    {
+        if(error)model.addAttribute("error","Cant find user");
+       else  model.addAttribute("error","");
         return "login";
     }
 
@@ -44,4 +49,6 @@ public class MainController  {
        boolean success= userService.save(user);
         return "redirect:/login";
     }
+
+
 }

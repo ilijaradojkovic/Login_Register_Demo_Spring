@@ -11,6 +11,7 @@
 <body style="background-color: #C6FFDD" class="container p-4 d-flex vh-100 flex-column justify-content-center align-items-center">
 
    <div class="p-4">
+       <p th:text="${error}" class=" text-center " style="color: red"></p>
        <form th:action="@{/login}" method="post" class="p-4 shadow-lg bg-info d-flex justify-content-center flex-column align-items-center" style="background: rgb(189,195,199);background: linear-gradient(90deg, rgba(189,195,199,1) 0%, rgba(44,62,80,1) 100%);border-radius: 15px">
 
 
