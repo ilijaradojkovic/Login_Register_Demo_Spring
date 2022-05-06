@@ -1,5 +1,6 @@
-package com.example.login_register_demo_spring;
+package com.example.login_register_demo_spring.config;
 
+import com.example.login_register_demo_spring.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -8,6 +9,10 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
+import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
+
+import javax.sql.DataSource;
 
 @Configuration
 public class WebConfig extends WebSecurityConfigurerAdapter {
@@ -15,6 +20,9 @@ public class WebConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private DataSource datasource;
     @Bean
     public BCryptPasswordEncoder getEncoder(){
 
@@ -30,15 +38,35 @@ public class WebConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests().mvcMatchers("/register/*","/register").permitAll().and().authorizeRequests().anyRequest().authenticated()
+        http.authorizeRequests().mvcMatchers("/register/*","/register").permitAll().
+                and().authorizeRequests().mvcMatchers("/accountConfirm*","/accountConfirm").permitAll().
+                and().authorizeRequests().mvcMatchers("/resetPassword*","/resetPassword").permitAll().
+                and().authorizeRequests().mvcMatchers("/resetComplete*","/resetComplete").permitAll().
+                and().authorizeRequests().mvcMatchers("/resetPasswordSuccess*","/resetPasswordSuccess").permitAll().
+
+                and().authorizeRequests().anyRequest().authenticated()
                 .and().formLogin().loginPage("/login")
                 .failureUrl("/login?error=true")
                 .defaultSuccessUrl("/",true)
                 .permitAll()
                 .and().httpBasic()
+                .and().rememberMe().key("secretKey").tokenValiditySeconds(10)
+                .tokenRepository(tokenRepository())
+                .and().logout().logoutSuccessUrl("/login")
+              //  .logoutRequestMatcher()
+                .invalidateHttpSession(true)
+                .deleteCookies("JSESSIONID")
+                .logoutUrl("/logout")
+                .permitAll()
 
         ;
         http.csrf().disable();
+    }
+    @Bean
+    public PersistentTokenRepository tokenRepository(){
+        JdbcTokenRepositoryImpl impl=new JdbcTokenRepositoryImpl();
+        impl.setDataSource(datasource);
+        return impl;
     }
 
     @Override

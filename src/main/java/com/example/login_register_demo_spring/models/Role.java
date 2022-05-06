@@ -1,4 +1,4 @@
-package com.example.login_register_demo_spring;
+package com.example.login_register_demo_spring.models;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

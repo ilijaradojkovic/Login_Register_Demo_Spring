@@ -9,8 +9,11 @@
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
-<body style="background-color: #C6FFDD" class="container vh-100  d-flex justify-content-center align-items-center">
- <div class=" p-4 w-50 ">
+<body style="background-color: #C6FFDD" class="w-100 vh-100  ">
+
+<div  class="w-100" th:replace="Fragments/navigation.html :: Navigation"></div>
+
+<div class=" p-4 w-100 d-flex justify-content-center align-items-center ">
      <form th:action="@{/register}"  th:object="${user}" method="post" class="shadow-lg p-4 d-flex justify-content-center flex-column align-items-center" style="background: rgb(189,195,199);
 background: linear-gradient(90deg, rgba(189,195,199,1) 0%, rgba(44,62,80,1) 100%);border-radius: 15px">
 

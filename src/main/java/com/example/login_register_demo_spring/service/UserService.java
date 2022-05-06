@@ -1,16 +1,13 @@
-package com.example.login_register_demo_spring;
+package com.example.login_register_demo_spring.service;
 
+import com.example.login_register_demo_spring.models.CusomUserSecurityObj;
+import com.example.login_register_demo_spring.models.User;
+import com.example.login_register_demo_spring.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-
-import java.util.Collection;
-import java.util.Collections;
-import java.util.stream.Collectors;
 
 @Service
 public class UserService implements UserDetailsService {
@@ -24,6 +21,8 @@ public class UserService implements UserDetailsService {
 
     }
 
+
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         System.out.println(username);
@@ -31,12 +30,14 @@ public class UserService implements UserDetailsService {
         if(user == null) {
             throw new UsernameNotFoundException("Invalid username or password.");
         }
-        return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), getRoles(user.getRole()));
+        return new CusomUserSecurityObj(user);
+       // return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), getRoles(user.getRole()));
 
     }
+    //dodavanjem custom obj mapirali smo usera za roles pa ovo nije potrebno
 
-    private Collection<? extends GrantedAuthority> getRoles(Role roles) {
-        return Collections.singleton(new SimpleGrantedAuthority(roles.getName()));
-    }
+//    private Collection<? extends GrantedAuthority> getRoles(Role roles) {
+//        return Collections.singleton(new SimpleGrantedAuthority(roles.getName()));
+//    }
 
 }
